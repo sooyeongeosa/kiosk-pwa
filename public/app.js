@@ -1,3 +1,6 @@
+const API_BASE = "https://kiosk-api-x9te.onrender.com";
+
+
 // ====== 메뉴(샘플 데이터) ======
 const MENU = [
     { id: "ice1", name: "아메리카노", price: 2500, desc: "진하게, 깔끔하게" },
