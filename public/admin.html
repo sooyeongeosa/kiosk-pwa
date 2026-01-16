@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="./style.css" />
+  <title>관리자 - 주문목록</title>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">Admin</div>
+      <div class="sub">주문 목록</div>
+    </div>
+    <div class="right">
+      <a class="btn ghost" href="./index.html">키오스크로</a>
+      <button id="btnRefresh" class="btn">새로고침</button>
+    </div>
+  </header>
+
+  <main class="wrap" style="grid-template-columns:1fr;">
+    <section class="panel">
+      <h1>주문 목록</h1>
+      <div id="list"></div>
+    </section>
+  </main>
+
+  <script src="./admin.js"></script>
+</body>
+</html>

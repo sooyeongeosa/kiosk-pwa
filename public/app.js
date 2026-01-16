@@ -112,40 +112,59 @@ const MENU = [
   }
   
   function doPay() {
-    const cart = loadCart();
-    const count = cartCount(cart);
-    if (count === 0) {
-      alert("장바구니가 비어 있어요!");
-      return;
+    async function doPay() {
+      const cart = loadCart();
+      const count = cartCount(cart);
+      if (count === 0) {
+        alert("장바구니가 비어 있어요!");
+        return;
+      }
+    
+      const items = Object.entries(cart).map(([id, qty]) => ({ id, qty }));
+      const sum = totalPrice(cart);
+    
+      // ✅ 서버로 주문 전송
+      let result;
+      try {
+        const res = await fetch(`${API_BASE}/api/orders`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ items, total: sum })
+        });
+        result = await res.json();
+        if (!result.ok) throw new Error(result.message || "주문 실패");
+      } catch (e) {
+        alert("서버 주문 저장 실패: " + e.message);
+        return;
+      }
+    
+      const orderNo = String(result.orderId); // 서버가 준 주문번호
+    
+      // 영수증 표시
+      const lines = items.map(({ id, qty }) => {
+        const p = MENU.find((m) => m.id === id);
+        if (!p) return "";
+        return `${p.name} × ${qty}  (${fmt(p.price * qty)})`;
+      }).filter(Boolean);
+    
+      const receipt = $("#receipt");
+      receipt.hidden = false;
+      receipt.innerHTML = `
+        <div style="font-weight:900; font-size:18px;">주문 완료 ✅</div>
+        <div class="muted" style="margin-top:6px;">주문번호: <strong>${orderNo}</strong></div>
+        <div style="margin-top:10px; line-height:1.6;">
+          ${lines.map((s) => `<div>• ${s}</div>`).join("")}
+        </div>
+        <div style="margin-top:10px; border-top:1px solid #2a2a35; padding-top:10px;">
+          <div class="row"><span>결제금액</span><strong>${fmt(sum)}</strong></div>
+          <div class="muted" style="margin-top:6px;">※ 서버에 주문이 저장되었습니다.</div>
+        </div>
+      `;
+    
+      localStorage.removeItem(CART_KEY);
+      render();
     }
-  
-    const orderNo = String(Math.floor(Math.random() * 9000) + 1000); // 4자리
-    const sum = totalPrice(cart);
-  
-    // 영수증(간단)
-    const lines = Object.entries(cart).map(([id, qty]) => {
-      const p = MENU.find((m) => m.id === id);
-      if (!p) return "";
-      return `${p.name} × ${qty}  (${fmt(p.price * qty)})`;
-    }).filter(Boolean);
-  
-    const receipt = $("#receipt");
-    receipt.hidden = false;
-    receipt.innerHTML = `
-      <div style="font-weight:900; font-size:18px;">주문 완료 ✅</div>
-      <div class="muted" style="margin-top:6px;">주문번호: <strong>${orderNo}</strong></div>
-      <div style="margin-top:10px; line-height:1.6;">
-        ${lines.map((s) => `<div>• ${s}</div>`).join("")}
-      </div>
-      <div style="margin-top:10px; border-top:1px solid #2a2a35; padding-top:10px;">
-        <div class="row"><span>결제금액</span><strong>${fmt(sum)}</strong></div>
-        <div class="muted" style="margin-top:6px;">※ 데모: 실제 결제 연동은 하지 않습니다.</div>
-      </div>
-    `;
-  
-    // 결제 후 장바구니 비우기
-    localStorage.removeItem(CART_KEY);
-    render();
+    
   }
   
   function clearAll() {
