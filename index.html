@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#111111" />
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="stylesheet" href="./style.css" />
+  <title>PWA 키오스크</title>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">Kiosk</div>
+      <div class="sub">PWA · HTML/CSS/JS</div>
+    </div>
+
+    <div class="right">
+      <button id="btnInstall" class="btn ghost" hidden>설치</button>
+      <button id="btnClear" class="btn ghost">초기화</button>
+      <div class="badge">
+        <span>장바구니</span>
+        <strong id="cartCount">0</strong>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="panel">
+      <h1>메뉴</h1>
+      <div id="menuGrid" class="grid"></div>
+    </section>
+
+    <section class="panel">
+      <h1>장바구니</h1>
+      <div id="cartList" class="cart"></div>
+
+      <div class="totals">
+        <div class="row"><span>합계</span><strong id="totalPrice">0원</strong></div>
+        <div class="row small"><span>키오스크는 “결제 흉내”만 합니다</span></div>
+      </div>
+
+      <div class="actions">
+        <button id="btnPay" class="btn primary">결제하기</button>
+      </div>
+
+      <div id="receipt" class="receipt" hidden></div>
+    </section>
+  </main>
+
+  <script src="./app.js"></script>
+</body>
+</html>
