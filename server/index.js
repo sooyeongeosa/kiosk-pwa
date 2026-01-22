@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS orders (
 
 // (선택) 메뉴를 서버에서 내려주고 싶으면 사용
 const MENU = [
-  { id: "ice1", name: "아메리카노", price: 2500 },
+  { id: "ice1", name: "아메리카노", price: 3000 },
   { id: "ice2", name: "카페라떼", price: 3500 },
   { id: "ice3", name: "바닐라라떼", price: 3800 },
   { id: "ice4", name: "레몬에이드", price: 4200 },
