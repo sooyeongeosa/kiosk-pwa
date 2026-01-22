@@ -16,7 +16,7 @@ const API_BASE = "https://kiosk-api-x9te.onrender.com";
 //     { id: "ice5", name: "아이스티", price: 3000, desc: "복숭아 향 가득" },
 //     { id: "ice6", name: "치즈케이크", price: 5200, desc: "진한 치즈와 부드러움" },
 //   ];
-const MENU = [];
+let MENU = [];
 
 async function initMenu() {
   try {
