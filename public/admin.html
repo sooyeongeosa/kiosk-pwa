@@ -3,27 +3,82 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>관리자 - 주문 대시보드</title>
   <link rel="stylesheet" href="./style.css" />
-  <title>관리자 - 주문목록</title>
+  <style>
+    /* 없으면 이 부분만으로도 보기 좋게 */
+    .admin-wrap{max-width:1100px;margin:0 auto;padding:20px}
+    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .card{background:#121219;border:1px solid #242433;border-radius:14px;padding:14px}
+    .muted{color:#a9a9b6}
+    .h1{font-size:20px;font-weight:900;margin:0}
+    .btn{border:0;border-radius:10px;padding:8px 10px;cursor:pointer;background:#2d2d3f;color:#fff}
+    .btn.primary{background:#2f7cff}
+    .btn.danger{background:#ff3b3b}
+    .btn:disabled{opacity:.5;cursor:not-allowed}
+    table{width:100%;border-collapse:separate;border-spacing:0 10px}
+    th{color:#a9a9b6;font-weight:700;text-align:left;font-size:12px;padding:6px}
+    td{padding:12px;background:#0f0f16;border-top:1px solid #242433;border-bottom:1px solid #242433}
+    tr td:first-child{border-left:1px solid #242433;border-top-left-radius:12px;border-bottom-left-radius:12px}
+    tr td:last-child{border-right:1px solid #242433;border-top-right-radius:12px;border-bottom-right-radius:12px}
+    .pill{display:inline-block;padding:4px 8px;border-radius:999px;font-size:12px;background:#222236}
+    .pill.NEW{background:#1f2a44}
+    .pill.PREPARING{background:#3a2a12}
+    .pill.DONE{background:#123a22}
+    .pill.CANCELLED{background:#3a1212}
+    input,select{background:#0f0f16;border:1px solid #242433;color:#fff;border-radius:10px;padding:8px}
+    .right{margin-left:auto}
+    .mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
+  </style>
 </head>
 <body>
-  <header class="topbar">
-    <div class="brand">
-      <div class="logo">Admin</div>
-      <div class="sub">주문 목록</div>
+  <div class="admin-wrap">
+    <div class="row" style="margin-bottom:14px;">
+      <h1 class="h1">관리자 주문 대시보드</h1>
+      <div class="right row">
+        <span class="muted">자동 새로고침</span>
+        <select id="refreshSel">
+          <option value="0">끔</option>
+          <option value="3000" selected>3초</option>
+          <option value="5000">5초</option>
+          <option value="10000">10초</option>
+        </select>
+        <button id="btnRefresh" class="btn primary">새로고침</button>
+      </div>
     </div>
-    <div class="right">
-      <a class="btn ghost" href="./index.html">키오스크로</a>
-      <button id="btnRefresh" class="btn">새로고침</button>
-    </div>
-  </header>
 
-  <main class="wrap" style="grid-template-columns:1fr;">
-    <section class="panel">
-      <h1>주문 목록</h1>
-      <div id="list"></div>
-    </section>
-  </main>
+    <div class="card" style="margin-bottom:14px;">
+      <div class="row">
+        <input id="q" placeholder="주문번호 검색 (예: 2)" class="mono" />
+        <select id="statusFilter">
+          <option value="ALL" selected>전체 상태</option>
+          <option value="NEW">NEW</option>
+          <option value="PREPARING">PREPARING</option>
+          <option value="DONE">DONE</option>
+          <option value="CANCELLED">CANCELLED</option>
+        </select>
+        <span id="stat" class="muted"></span>
+      </div>
+    </div>
+
+    <div class="card">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:90px;">주문ID</th>
+            <th style="width:120px;">상태</th>
+            <th>주문내역</th>
+            <th style="width:120px;">총액</th>
+            <th style="width:200px;">생성시간</th>
+            <th style="width:260px;">액션</th>
+          </tr>
+        </thead>
+        <tbody id="tbody">
+          <tr><td colspan="6" class="muted">로딩 중...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
   <script src="./admin.js"></script>
 </body>
