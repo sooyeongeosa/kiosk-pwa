@@ -1,19 +1,34 @@
 const API_BASE = "https://kiosk-api-x9te.onrender.com";
-fetch(`${API_BASE}/`)
-  .then((res) => res.text())
-  .then((txt) => console.log("서버응답:", txt))
-  .catch((err) => console.error("연결실패:", err));
+
+// server 연결 테스트용
+// fetch(`${API_BASE}/`)
+//   .then((res) => res.text())
+//   .then((txt) => console.log("서버응답:", txt))
+//   .catch((err) => console.error("연결실패:", err));
 
 
 // ====== 메뉴(샘플 데이터) ======
-const MENU = [
-    { id: "ice1", name: "아메리카노", price: 2500, desc: "진하게, 깔끔하게" },
-    { id: "ice2", name: "카페라떼", price: 3500, desc: "부드러운 우유 풍미" },
-    { id: "ice3", name: "바닐라라떼", price: 3800, desc: "달콤한 바닐라 향" },
-    { id: "ice4", name: "레몬에이드", price: 4200, desc: "상큼한 탄산" },
-    { id: "ice5", name: "아이스티", price: 3000, desc: "복숭아 향 가득" },
-    { id: "ice6", name: "치즈케이크", price: 5200, desc: "진한 치즈와 부드러움" },
-  ];
+// const MENU = [
+//     { id: "ice1", name: "아메리카노", price: 2500, desc: "진하게, 깔끔하게" },
+//     { id: "ice2", name: "카페라떼", price: 3500, desc: "부드러운 우유 풍미" },
+//     { id: "ice3", name: "바닐라라떼", price: 3800, desc: "달콤한 바닐라 향" },
+//     { id: "ice4", name: "레몬에이드", price: 4200, desc: "상큼한 탄산" },
+//     { id: "ice5", name: "아이스티", price: 3000, desc: "복숭아 향 가득" },
+//     { id: "ice6", name: "치즈케이크", price: 5200, desc: "진한 치즈와 부드러움" },
+//   ];
+const MENU = [];
+
+async function initMenu() {
+  try {
+    const res = await fetch(`${API_BASE}/api/menu`);
+    MENU = await res.json();
+    renderMenu();
+    render();
+  } catch (e) {
+    alert("메뉴 불러오기 실패");
+  }
+}
+
   
   const $ = (sel) => document.querySelector(sel);
   const fmt = (n) => new Intl.NumberFormat("ko-KR").format(n) + "원";
@@ -214,7 +229,10 @@ const MENU = [
   $("#btnPay").onclick = doPay;
   $("#btnClear").onclick = clearAll;
   
-  renderMenu();
-  render();
+  // renderMenu();
+  // render();
+  // registerSW();
+
+  initMenu()
   registerSW();
   
