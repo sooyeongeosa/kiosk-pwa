@@ -1,5 +1,7 @@
-const API_BASE = "http://localhost:4000";
-const fmt = (n) => new Intl.NumberFormat("ko-KR").format(n) + "원";
+// const API_BASE = "http://localhost:4000";
+// const fmt = (n) => new Intl.NumberFormat("ko-KR").format(n) + "원";
+
+
 
 async function loadOrders() {
   const el = document.querySelector("#list");
