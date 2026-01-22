@@ -54,20 +54,22 @@ function render() {
   const rows = lastOrders
     .filter(matchFilter)
     // 최신이 위로 오게 (createdAt 기준). 없으면 orderId desc
-    .sort((a, b) => (b.createdAt || "").localeCompare(a.createdAt || "") || (b.orderId - a.orderId))
+    .sort((a, b) => (b.id ?? 0) - (a.id ?? 0))
+
     .map((o) => {
       const created = o.createdAt ? new Date(o.createdAt).toLocaleString("ko-KR") : "-";
       return `
         <tr>
-          <td class="mono">${o.orderId ?? "-"}</td>
+          <td class="mono">${o.id ?? "-"}</td>
           <td><span class="pill ${o.status}">${o.status}</span></td>
           <td class="mono">${itemText(o)}</td>
           <td>${fmt(o.total ?? 0)}</td>
           <td class="mono">${created}</td>
           <td>
-            <button class="btn" data-act="PREPARING" data-id="${o.orderId}">PREPARING</button>
-            <button class="btn primary" data-act="DONE" data-id="${o.orderId}">DONE</button>
-            <button class="btn danger" data-act="CANCELLED" data-id="${o.orderId}">CANCEL</button>
+            <button class="btn" data-act="COOKING" data-id="${o.id}">COOKING</button>
+            <button class="btn primary" data-act="DONE" data-id="${o.id}">DONE</button>
+            <button class="btn danger" data-act="CANCEL" data-id="${o.id}">CANCEL</button>
+
           </td>
         </tr>
       `;
