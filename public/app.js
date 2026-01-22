@@ -24,8 +24,10 @@ async function initMenu() {
     MENU = await res.json();
     renderMenu();
     render();
+    console.log('menu data =',MENU)
   } catch (e) {
     alert("메뉴 불러오기 실패");
+    console.error('메뉴 불러오기 실패:',e)
   }
 }
 
