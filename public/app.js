@@ -1,4 +1,8 @@
 const API_BASE = "https://kiosk-api-x9te.onrender.com";
+fetch(`${API_BASE}/`)
+  .then((res) => res.text())
+  .then((txt) => console.log("서버응답:", txt))
+  .catch((err) => console.error("연결실패:", err));
 
 
 // ====== 메뉴(샘플 데이터) ======
